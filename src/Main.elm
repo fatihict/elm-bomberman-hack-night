@@ -1,19 +1,19 @@
 module Main exposing (..)
 
-import Time exposing (..)
-import List exposing (..)
 import AnimationFrame
-import Keyboard.Extra as Keyboard
-import Window
 import Collage exposing (..)
-import Element exposing (..)
 import Color exposing (..)
 import Debug
-import Text
-import Task exposing (Task, andThen)
-import String exposing (padLeft)
-import Html.App as App
+import Element exposing (..)
 import Html
+import Html.App as App
+import Keyboard.Extra as Keyboard
+import List exposing (..)
+import String exposing (padLeft)
+import Task exposing (Task, andThen)
+import Text
+import Time exposing (..)
+import Window
 
 
 -- MODEL
