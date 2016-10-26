@@ -1,5 +1,7 @@
 module Devcards.Main exposing (..)
 
+-- import AnimationFrame
+
 import Html exposing (Html, div)
 import Html.App as App
 import Svg exposing (..)
@@ -7,8 +9,33 @@ import Svg.Attributes exposing (..)
 import Time exposing (Time, inMilliseconds)
 
 
+type Orientation
+    = Left
+    | Right
+    | Top
+    | Bottom
+
+
+orientationToFolder : Orientation -> String
+orientationToFolder orientation =
+    case orientation of
+        Left ->
+            "side"
+
+        Right ->
+            "side"
+
+        Top ->
+            "back"
+
+        Bottom ->
+            "front"
+
+
 type alias Model =
-    { step : Float }
+    { step : Float
+    , orientation : Orientation
+    }
 
 
 main : Program Never
@@ -23,7 +50,11 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { step = 0 }, Cmd.none )
+    ( { step = 0
+      , orientation = Top
+      }
+    , Cmd.none
+    )
 
 
 type Msg
@@ -71,17 +102,27 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ div [] [ text (toString model.step) ]
-        , svg
-            [ width "500px", height "500px" ]
-            [ image
-                [ xlinkHref ("/src/assets/sprites/bomberman/front/bman_f_f0" ++ (toString model.step) ++ ".png")
-                , x "0"
-                , y "0"
-                , width "54px"
-                , height "128"
+    let
+        t =
+            case model.orientation of
+                Left ->
+                    "translate(54, 0) scale(-1, 1) "
+
+                _ ->
+                    ""
+    in
+        div []
+            [ svg
+                [ width "500px", height "500px" ]
+                [ image
+                    [ xlinkHref ("/src/assets/sprites/bomberman/" ++ (orientationToFolder model.orientation) ++ "/0" ++ (toString model.step) ++ ".png")
+                    , transform t
+                      --, Svg.Attributes.style "transform: scaleX(-1);"
+                    , x "0"
+                    , y "0"
+                    , width "54px"
+                    , height "128px"
+                    ]
+                    []
                 ]
-                []
             ]
-        ]
